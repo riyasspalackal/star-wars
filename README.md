@@ -1,4 +1,4 @@
-# liquidity_home_assignment
+# Star Wars
 
 ## Project setup
 ```
