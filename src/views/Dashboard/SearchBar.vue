@@ -25,8 +25,13 @@
                   View all
                 </v-btn>
               </li>
-              <li v-else class="content">
-                <span>{{ result.name ? result.name : result.title }} </span>
+              <li v-if="!result.divider && !result.header" class="content">
+                <div v-html="highlight(result)"></div>
+                <!-- <span>
+                  {{
+                    result.name ? result.name : result.title | highlight("f")
+                  }}
+                </span> -->
               </li>
             </div>
           </ul>
@@ -54,6 +59,9 @@ export default {
 
   computed: {
     searchList() {
+      console.log("------------------------------------");
+      console.log(this.$store.getters.getSearchList);
+      console.log("------------------------------------");
       return this.$store.getters.getSearchList;
     },
   },
@@ -77,13 +85,18 @@ export default {
     },
 
     async callEntitiesApi(apis) {
-      this.$store.commit("clearSearchData");
-      for (let key in apis) {
-        this.$store.dispatch("loadSearchData", {
-          entity: key,
-          searchKey: this.searchKey,
-        });
-      }
+      await this.$store.dispatch("clearData").then(() => {
+        console.log("------------------------------------");
+        console.log("after clear");
+        console.log("------------------------------------");
+        for (let key in apis) {
+          console.log(key);
+          this.$store.dispatch("loadSearchData", {
+            entity: key,
+            searchKey: this.searchKey,
+          });
+        }
+      });
     },
 
     viewAllList(entity) {
@@ -91,6 +104,18 @@ export default {
         name: "List",
         params: { entity: entity },
       });
+    },
+
+    highlight(result) {
+      return result.name
+        ? result.name.replaceAll(
+            this.searchKey,
+            "<span class='highlight'>" + this.searchKey + "</span>"
+          )
+        : result.title.replaceAll(
+            this.searchKey,
+            "<span class='highlight'>" + this.searchKey + "</span>"
+          );
     },
   },
 };
@@ -142,6 +167,10 @@ ul {
   100% {
     opacity: 1;
   }
+}
+.highlight {
+  font-weight: bold;
+  background-color: #fff176;
 }
 </style>
 

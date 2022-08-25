@@ -1,4 +1,10 @@
 import axios from "axios";
+const cancelToken = axios.CancelToken;
+const source = cancelToken.source();
+
+// const controller = new AbortController();
+// const signal = controller.signal;
+
 const state = {
   searchList: [],
 };
@@ -11,7 +17,9 @@ const actions = {
   loadSearchData(context, data) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://swapi.dev/api/${data.entity}?search=${data.searchKey}`)
+        .get(`http://swapi.dev/api/${data.entity}?search=${data.searchKey}`, {
+          cancelToken: source.token,
+        })
         .then((response) => {
           resolve(response.data.results);
           context.commit("setSearchData", {
@@ -24,6 +32,13 @@ const actions = {
         });
     });
   },
+  clearData(context) {
+    return new Promise((resolve) => {
+      // source.cancel();
+      context.commit("clearSearchData");
+      resolve();
+    });
+  },
 };
 const mutations = {
   setSearchData: (state, data) => {
@@ -33,7 +48,7 @@ const mutations = {
       try {
         data.result.forEach(function (el, index) {
           state.searchList.push(el);
-          if (index === 2) throw BreakException;
+          if (index === 3) throw BreakException;
         });
       } catch (e) {
         if (e !== BreakException) throw e;
@@ -46,6 +61,7 @@ const mutations = {
     state.searchList = [];
   },
 };
+
 export default {
   state,
   getters,

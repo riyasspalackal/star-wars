@@ -85,7 +85,7 @@
               {{ item.name ? item.name : item.title }}
             </td>
             <td @click="viewDetails(item)">
-              {{ item.model ? item.model : item.director }}
+              {{ getColumnValue(item) }}
             </td>
             <td>
               <div v-if="item === selectedItem">
@@ -181,7 +181,15 @@ export default {
         if (this.$route.params.entity == "films") {
           this.headers[0].value = "title";
           this.headers[1].text = "Director";
-          this.headers[1].value = "director";
+        }
+        if (this.$route.params.entity == "people") {
+          this.headers[1].text = "Birth Year";
+        }
+        if (this.$route.params.entity == "species") {
+          this.headers[1].text = "Language";
+        }
+        if (this.$route.params.entity == "planets") {
+          this.headers[1].text = "population";
         }
       });
     },
@@ -227,13 +235,33 @@ export default {
       this.editedOrDeletedItems = item;
       this.dialogDelete = true;
     },
+
     deleteItemConfirm() {
       this.$store.commit("delete", this.editedOrDeletedItems);
       this.closeDelete();
     },
+
     closeDelete() {
       this.dialogDelete = false;
       this.editedOrDeletedItems = {};
+    },
+
+    getColumnValue(item) {
+      switch (this.$route.params.entity) {
+        case "films":
+          return item.director;
+        case "people":
+          return item.birth_year;
+        case "species":
+          return item.language;
+        case "planets":
+          return item.population;
+        case "vehicles":
+          return item.model;
+        case "starships":
+          return item.model;
+        default:
+      }
     },
   },
 };

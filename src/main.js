@@ -5,6 +5,7 @@ import vuetify from "./plugins/vuetify";
 import router from "./router";
 import store from "./store";
 import common from "./mixins/common";
+import "./utils/filter";
 
 Vue.config.productionTip = false;
 
