@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 import Dashboard from "../views/Dashboard/SearchBar.vue";
 import List from "../views/List/ListView.vue";
+import DetailsView from "../views/List/DetailsView.vue";
 
 Vue.use(VueRouter);
 
@@ -16,7 +17,7 @@ const routes = [
     },
   },
   {
-    name: "List",
+    name: "Dashboard",
     path: "/dashboard",
     component: Dashboard,
     meta: {
@@ -25,10 +26,18 @@ const routes = [
   },
   {
     name: "List",
-    path: "/list",
+    path: "/list/:entity",
     component: List,
     meta: {
       title: "List",
+    },
+  },
+  {
+    name: "View",
+    path: "/view/:entity",
+    component: DetailsView,
+    meta: {
+      title: "Details view",
     },
   },
 ];

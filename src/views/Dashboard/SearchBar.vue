@@ -2,21 +2,35 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <v-autocomplete
-          outlined
-          label="Please search character name"
-          :items="searchResult"
-          item-text="name"
-          item-value="name"
-          :loading="isLoading"
-          v-model="people"
-          :search-input.sync="search"
-          return-object
-        >
-          <template v-slot:item="{ item }">
-            <span>{{ item.name }}</span>
-          </template>
-        </v-autocomplete>
+        <div style="position: relative">
+          <v-text-field
+            label="Please search character name"
+            outlined
+            background-color="#fff"
+            v-model="searchKey"
+            @keyup="search1"
+          >
+          </v-text-field>
+          <ul class="dropdown-menu slide-enter-active" v-if="searchList.length">
+            <div v-for="(result, index) in searchList" :key="index">
+              <li v-if="result.header" class="header">
+                <span>{{ result.name }} </span>
+              </li>
+              <li
+                v-if="result.divider"
+                class="divider pa-0"
+                @click="viewAllList(result.name)"
+              >
+                <v-btn text color="teal accent-4" @click="reveal = true">
+                  View all
+                </v-btn>
+              </li>
+              <li v-else class="content">
+                <span>{{ result.name ? result.name : result.title }} </span>
+              </li>
+            </div>
+          </ul>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -30,67 +44,106 @@ export default {
       apis: [],
       searchResult: [],
       isLoading: false,
-      people: "",
+      searchKey: "",
       name: null,
       search: null,
     };
   },
 
-  watch: {
-    search: debounce(function (val) {
-      this.searchHelper(val);
-    }, 200),
-  },
+  mounted() {},
 
-  mounted() {
-    // this.getApis();
+  computed: {
+    searchList() {
+      return this.$store.getters.getSearchList;
+    },
   },
 
   methods: {
-    searchHelper(val) {
+    search1: debounce(function () {
+      this.searchHelper();
+    }, 200),
+
+    searchHelper() {
       this.isLoading = true;
       this.$http
         .get(`http://swapi.dev/api/`)
         .then((response) => {
           let apis = response.data;
-          this.callEntitiesApi(apis, val);
+          this.callEntitiesApi(apis);
         })
         .catch((error) => {
           this.errorChecker(error);
         });
     },
 
-    async callEntitiesApi(apis, val) {
-      let result;
-      this.searchResult = [];
+    async callEntitiesApi(apis) {
+      this.$store.commit("clearSearchData");
       for (let key in apis) {
-        result = await this.searchWithKey(key, val);
-
-        if (result && result.length) {
-          this.searchResult.push({ header: key });
-          this.searchResult.push({ divider: true });
-          result.forEach((res) => {
-            this.searchResult.push(res);
-          });
-        }
+        this.$store.dispatch("loadSearchData", {
+          entity: key,
+          searchKey: this.searchKey,
+        });
       }
     },
 
-    searchWithKey(key, val) {
-      return new Promise((resolve) => {
-        this.$http
-          .get(`http://swapi.dev/api/${key}?search=${val}`)
-          .then((response) => {
-            resolve(response.data.results);
-          })
-          .catch((error) => {
-            this.errorChecker(error);
-          });
+    viewAllList(entity) {
+      this.$router.push({
+        name: "List",
+        params: { entity: entity },
       });
     },
   },
 };
 </script>
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.38);
+  border-right: 1px solid rgba(0, 0, 0, 0.38);
+  border-left: 1px solid rgba(0, 0, 0, 0.38);
+  background: #6ed8c9;
+  font-size: 20px;
+  text-align: left;
+  padding-left: 11px;
+  text-transform: capitalize;
+}
+.divider {
+  font-size: 20px;
+  text-align: right;
+  padding: 11px;
+}
+.content {
+  text-align: left;
+  padding-left: 20px;
+  font-size: 18px;
+  text-transform: capitalize;
+}
+.dropdown-menu {
+  padding: 0 !important;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  position: absolute;
+  top: 55px;
+}
+.slide-enter-active {
+  animation: fadeIn 1s;
+}
+.slide-leave-active {
+  animation: fadeIn reverse 1s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+</style>
 
 
 

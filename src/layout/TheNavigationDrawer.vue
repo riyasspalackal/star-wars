@@ -19,14 +19,14 @@
         </v-list-item>
         <v-divider></v-divider>
 
-        <v-list-item value="dashboard" link color="primary" to="/list">
+        <!-- <v-list-item value="dashboard" link color="primary" to="/list">
           <v-list-item-icon>
             <v-icon color="menu_icon">mdi-view-dashboard</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>List</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
         <v-divider></v-divider>
       </v-list-item-group>
     </v-list>
