@@ -1,25 +1,26 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center"></div>
-
-      <v-spacer></v-spacer>
-    </v-app-bar>
+    <side-bar-navigation />
 
     <v-main>
-      <HelloWorld />
+      <v-container fill-height>
+        <v-layout>
+          <v-fade-transition mode="out-in">
+            <router-view />
+          </v-fade-transition>
+        </v-layout>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
-
+import SideBarNavigation from "./layout/TheNavigationDrawer";
 export default {
   name: "App",
 
   components: {
-    HelloWorld,
+    SideBarNavigation,
   },
 
   data: () => ({
