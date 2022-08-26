@@ -59,9 +59,6 @@ export default {
 
   computed: {
     searchList() {
-      console.log("------------------------------------");
-      console.log(this.$store.getters.getSearchList);
-      console.log("------------------------------------");
       return this.$store.getters.getSearchList;
     },
   },
@@ -86,9 +83,6 @@ export default {
 
     async callEntitiesApi(apis) {
       await this.$store.dispatch("clearData").then(() => {
-        console.log("------------------------------------");
-        console.log("after clear");
-        console.log("------------------------------------");
         for (let key in apis) {
           console.log(key);
           this.$store.dispatch("loadSearchData", {
