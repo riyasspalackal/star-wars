@@ -6,7 +6,8 @@ A small web application based on StarWars API
 
 <img width="1724" alt="image" src="https://user-images.githubusercontent.com/15151953/187018807-486a2beb-39a9-4ba8-8786-adc8b0323fc8.png">
 
-<img width="1726" alt="image" src="https://user-images.githubusercontent.com/15151953/187018836-7d1b0119-cef4-4332-a45b-26a3aedc63b7.png">
+<img width="1726" alt="image" src="https://user-images.githubusercontent.com/15151953/187018999-15e21c73-ba4f-441d-92a9-337f1aaf78d9.png">
+
 
 
 Front end
