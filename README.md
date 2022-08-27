@@ -4,6 +4,8 @@ A small web application based on StarWars API
 
 <img width="1723" alt="image" src="https://user-images.githubusercontent.com/15151953/187018781-a68968ef-5127-4571-add1-132018a407c0.png">
 
+<img width="1724" alt="image" src="https://user-images.githubusercontent.com/15151953/187018807-486a2beb-39a9-4ba8-8786-adc8b0323fc8.png">
+
 
 Front end
  -  Vue 2
