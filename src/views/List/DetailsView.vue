@@ -46,7 +46,9 @@ export default {
           href: "/list/" + this.$route.params.entity,
         },
         {
-          text: "List",
+          text: this.$store.getters.getSelectedItem.name
+            ? this.$store.getters.getSelectedItem.name
+            : this.$store.getters.getSelectedItem.title,
           disabled: true,
         },
       ],

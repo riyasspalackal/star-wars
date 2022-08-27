@@ -8,7 +8,7 @@
             outlined
             background-color="#fff"
             v-model="searchKey"
-            @keyup="search1"
+            @keyup="search"
           >
           </v-text-field>
           <ul class="dropdown-menu slide-enter-active" v-if="searchList.length">
@@ -51,7 +51,6 @@ export default {
       isLoading: false,
       searchKey: "",
       name: null,
-      search: null,
     };
   },
 
@@ -64,8 +63,12 @@ export default {
   },
 
   methods: {
-    search1: debounce(function () {
-      this.searchHelper();
+    search: debounce(function () {
+      if (this.searchKey) {
+        this.searchHelper();
+      } else {
+        this.$store.dispatch("clearData");
+      }
     }, 200),
 
     searchHelper() {
