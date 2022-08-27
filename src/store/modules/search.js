@@ -48,7 +48,7 @@ const mutations = {
       try {
         data.result.forEach(function (el, index) {
           state.searchList.push(el);
-          if (index === 3) throw BreakException;
+          if (index === 2) throw BreakException;
         });
       } catch (e) {
         if (e !== BreakException) throw e;
