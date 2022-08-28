@@ -173,7 +173,9 @@ export default {
         entity: this.$route.params.entity,
         page: this.page,
       };
+      this.showLoader();
       this.$store.dispatch("loadEntity", params).then((res) => {
+        this.hideLoader();
         this.list = res.results;
         if (res.count && res.count > 10)
           this.pageCount = res.count / this.itemsPerPage;

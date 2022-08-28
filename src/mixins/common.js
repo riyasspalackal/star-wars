@@ -8,7 +8,7 @@ const common = {
   computed: {},
 
   methods: {
-    ...mapActions(["showSnack"]),
+    ...mapActions(["showSnack", "showOverlayLoader"]),
 
     errorChecker(error) {
       var response = error;
@@ -36,6 +36,19 @@ const common = {
         text: message,
         type: "error",
         timeout: 10000,
+      });
+    },
+
+    showLoader(message) {
+      this.showOverlayLoader({
+        text: message,
+        show: true,
+      });
+    },
+    hideLoader() {
+      this.showOverlayLoader({
+        text: "",
+        show: false,
       });
     },
   },
