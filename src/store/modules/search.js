@@ -1,9 +1,6 @@
 import axios from "axios";
-const cancelToken = axios.CancelToken;
-const source = cancelToken.source();
-
-// const controller = new AbortController();
-// const signal = controller.signal;
+const abortController = new AbortController();
+const abortSignal = abortController.signal;
 
 const state = {
   searchList: [],
@@ -18,7 +15,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios
         .get(`http://swapi.dev/api/${data.entity}?search=${data.searchKey}`, {
-          cancelToken: source.token,
+          signal: abortSignal,
         })
         .then((response) => {
           resolve(response.data.results);
@@ -34,7 +31,7 @@ const actions = {
   },
   clearData(context) {
     return new Promise((resolve) => {
-      // source.cancel();
+      abortController.abort();
       context.commit("clearSearchData");
       resolve();
     });

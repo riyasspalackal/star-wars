@@ -63,6 +63,7 @@ export default {
   },
 
   methods: {
+    // allow a 200 ms debounce between typings.
     search: debounce(function () {
       if (this.searchKey) {
         this.searchHelper();
@@ -87,7 +88,6 @@ export default {
     async callEntitiesApi(apis) {
       await this.$store.dispatch("clearData").then(() => {
         for (let key in apis) {
-          console.log(key);
           this.$store.dispatch("loadSearchData", {
             entity: key,
             searchKey: this.searchKey,
