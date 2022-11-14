@@ -14,7 +14,7 @@ const actions = {
   loadSearchData(context, data) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://swapi.dev/api/${data.entity}?search=${data.searchKey}`, {
+        .get(`https://swapi.dev/api/${data.entity}?search=${data.searchKey}`, {
           signal: abortSignal,
         })
         .then((response) => {

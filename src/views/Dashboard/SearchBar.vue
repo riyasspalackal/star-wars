@@ -75,7 +75,7 @@ export default {
     searchHelper() {
       this.isLoading = true;
       this.$http
-        .get(`http://swapi.dev/api/`)
+        .get(`https://swapi.dev/api/`)
         .then((response) => {
           let apis = response.data;
           this.callEntitiesApi(apis);

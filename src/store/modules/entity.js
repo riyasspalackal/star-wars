@@ -13,7 +13,7 @@ const actions = {
   loadEntity(context, data) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://swapi.dev/api/${data.entity}?page=${data.page}`)
+        .get(`https://swapi.dev/api/${data.entity}?page=${data.page}`)
         .then((response) => {
           context.commit("setEntityData", response.data.results);
           resolve(response.data);
